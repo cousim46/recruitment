@@ -16,7 +16,8 @@ public class User {
     @Id
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
-    @Column(columnDefinition = "BINARY(16)",name = "userId")
+    @Column(name = "userId")
+    @Type(type = "uuid-char")
     private UUID id;
     @Column(columnDefinition = "VARCHAR(165)")
     private String username;
