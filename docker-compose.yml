@@ -1,5 +1,18 @@
 version: '2'
 services:
+  mysql:
+    image: mysql:5.7 #mysql version
+    container_name: mysql #Docker에 나타날 컨테이너 이름
+    ports:
+      - 3307:3306 # HOST:CONTAINER 포트번호
+    environment:
+      MYSQL_ROOT_PASSWORD: root # Root 비밀번호 설정
+      MYSQL_USER: triple # Nano 라는 유저 추가
+      MYSQL_PASSWORD: triple #Nano 유저의 비밀번호
+      MYSQL_DATABASE: triple  #생성될 DB 네임
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
   zookeeper:
     image: wurstmeister/zookeeper:3.4.6
     container_name: zoo1
