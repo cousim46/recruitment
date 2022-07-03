@@ -1,7 +1,6 @@
 package com.example.triple.entity.review;
 
 import com.example.triple.BaseTimeEntity;
-import com.example.triple.entity.place.Place;
 import com.example.triple.entity.user.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,6 +13,7 @@ import java.util.UUID;
 @Entity
 @NoArgsConstructor
 @Getter
+@Table(indexes = @Index(name = "review_idx", columnList = "placeId"))
 public class Review extends BaseTimeEntity {
     @Id
     @GeneratedValue(generator = "uuid2")
@@ -26,12 +26,47 @@ public class Review extends BaseTimeEntity {
     @JoinColumn(name = "userId")
     private User user;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "placeId")
-    private Place place;
 
-    public Review(User user, Place place) {
+    @Type(type = "uuid-char")
+    private UUID placeId;
+
+    private String content;
+
+    private int contentPoint;
+    private int imagePoint;
+    private int specialPlacePoint;
+    private int totalPoint;
+
+    private String image;
+
+    public Review(User user, UUID placeId, String content) {
         this.user = user;
-        this.place = place;
+        this.placeId = placeId;
+        this.content = content;
     }
+
+    public void reviewChange(String content, String image) {
+        this.content = content;
+        this.image = image;
+    }
+
+    public void reviewImage(String image) {
+        this.image = image;
+    }
+
+
+    public void increaseOrDecreasePoint(int contentPoint, int imagePoint, int specialPlacePoint, int totalPoint) {
+        this.contentPoint = contentPoint;
+        this.imagePoint = imagePoint;
+        this.specialPlacePoint = specialPlacePoint;
+        this.totalPoint = totalPoint;
+    }
+
+    public void updateContentPoint(int contentPoint, int imagePoint, int totalPoint) {
+        this.contentPoint = contentPoint;
+        this.imagePoint = imagePoint;
+        this.totalPoint = totalPoint;
+    }
+
+
 }
