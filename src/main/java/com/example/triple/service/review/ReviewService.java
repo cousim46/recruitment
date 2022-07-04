@@ -5,6 +5,8 @@ import com.example.triple.dto.review.ReviewAction;
 import com.example.triple.entity.point.PointHistory;
 import com.example.triple.entity.review.Review;
 import com.example.triple.entity.user.User;
+import com.example.triple.error.ErrorCode;
+import com.example.triple.error.UserCustomException;
 import com.example.triple.repository.point.PointHistoryRepository;
 import com.example.triple.repository.review.ReviewRepository;
 import com.example.triple.repository.user.UserRepository;
@@ -35,6 +37,10 @@ public class ReviewService {
                                       String content
     ) {
         User user = userRepository.findById(userId).get();
+        if (reviewRepository.existsByUserAndPlaceId(user, placeId)) {
+            throw new UserCustomException(ErrorCode.UNIQUE_WRITE_REVIEW);
+        }
+
         int beforePoint = user.getCurrentPoint();
         Review review = new Review(user, placeId, content);
         List<UUID> attachedPhotoIds = reviewImages;
