@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Slice;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -18,7 +19,7 @@ public class PointHistoryController {
 
 
     @PostMapping("/events")
-    public void events(@RequestBody EventsResponse eventsResponse) {
+    public void events(@Validated @RequestBody EventsResponse eventsResponse) {
 
         pointHistoryService.events(eventsResponse);
     }

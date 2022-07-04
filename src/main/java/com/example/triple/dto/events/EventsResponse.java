@@ -13,16 +13,16 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 public class EventsResponse {
-    @NotNull
+    @NotNull(message = "타입이 필요합니다.")
     private String type;
-    @NotNull
+    @NotNull(message = "Action이 필요합니다.")
     private ReviewAction action;
-    @NotNull
+    @NotNull(message = "리뷰ID가 필요합니다.")
     private UUID reviewId;
     private String content;
     private List<UUID> attachedPhotoIds;
-    @NotNull
+    @NotNull(message = "유저ID가 필요합니다.")
     private UUID userId;
-    @NotNull
+    @NotNull(message = "장소ID가 필요합니다.")
     private UUID placeId;
 }
