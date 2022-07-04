@@ -130,7 +130,6 @@ class PointHistoryServiceTest {
         UUID reviewId = UUID.randomUUID();
         UUID placeId = UUID.randomUUID();
 
-
         List<UUID> attachedPhotoIds = new ArrayList<>();
         attachedPhotoIds.add(UUID.randomUUID());
         EventsResponse eventsResponse = new EventsResponse("REVIEW", ReviewAction.ADD,
@@ -140,7 +139,6 @@ class PointHistoryServiceTest {
         Review review = reviewRepository.findReview(events.getReviewId(), user);
 
         //then
-
         assertThat(attachedPhotoIds.size()).isEqualTo(1);
         assertThat(review.getImagePoint()).isEqualTo(1);
         assertThat(review.getContentPoint()).isEqualTo(1);
