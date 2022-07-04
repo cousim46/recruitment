@@ -1,7 +1,6 @@
 package com.example.triple.service.review;
 
-import com.example.triple.dto.events.EventsResponse;
-import com.example.triple.dto.review.ReviewAction;
+import com.example.triple.dto.review.ReviewResponse;
 import com.example.triple.entity.point.PointHistory;
 import com.example.triple.entity.review.Review;
 import com.example.triple.entity.user.User;
@@ -14,7 +13,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -25,13 +23,9 @@ public class ReviewService {
     private final UserRepository userRepository;
     private final PointHistoryRepository pointHistoryRepository;
 
-    private final String REVIEW = "REVIEW";
-
-
-//    private final KafkaTemplate<String, String> kafkaTemplate;
 
     @Transactional
-    public EventsResponse reviewWrite(UUID userId,
+    public ReviewResponse reviewWrite(UUID userId,
                                       UUID placeId,
                                       List<UUID> reviewImages,
                                       String content
@@ -60,7 +54,7 @@ public class ReviewService {
         pointHistoryRepository.save(new PointHistory(user, beforePoint, review.getTotalPoint(), afterPoint));
 
 
-        return new EventsResponse(REVIEW, ReviewAction.ADD, review.getId(), review.getContent(), attachedPhotoIds, userId, review.getPlaceId());
+        return new ReviewResponse(review.getId(), attachedPhotoIds, review.getContent(), review.getPlaceId());
     }
 
 
@@ -68,9 +62,8 @@ public class ReviewService {
     리뷰 수정, 삭제, 그리고 Post events 되는지 확인
      */
     @Transactional
-    public EventsResponse reviewUpdate(UUID reviewId,
+    public ReviewResponse reviewUpdate(UUID reviewId,
                                        UUID userId,
-                                       UUID placeId,
                                        List<UUID> reviewImages,
                                        String content) {
 
@@ -117,18 +110,13 @@ public class ReviewService {
         pointHistoryRepository.save(new PointHistory(user, totalPoint - beforePoint, beforePoint, afterPoint));
 
 
-        return new EventsResponse(REVIEW, ReviewAction.MOD, review.getId(), review.getContent(), attachedPhotoIds, userId, placeId);
+        return new ReviewResponse(review.getId(), attachedPhotoIds, review.getContent(), review.getPlaceId());
     }
 
     @Transactional
-    public EventsResponse reviewDelete(UUID reviewId, UUID userId) {
+    public ReviewResponse reviewDelete(UUID reviewId, UUID userId, List<UUID> attachedPhotoIds) {
         User user = userRepository.findById(userId).get();
         Review review = reviewRepository.findReview(reviewId, user);
-        List<UUID> attachedPhotoIds = new ArrayList<>();
-        String[] image = review.getImage().split(",");
-        for (String s : image) {
-            attachedPhotoIds.add(UUID.fromString(s));
-        }
         int beforePoint = user.getCurrentPoint();
         int totalPoint = review.getTotalPoint();
         user.decreasePoint(totalPoint);
@@ -137,6 +125,6 @@ public class ReviewService {
         pointHistoryRepository.save(new PointHistory(user, -beforePoint, beforePoint, afterPoint));
 
 
-        return new EventsResponse(REVIEW, ReviewAction.DELETE, review.getId(), review.getContent(), attachedPhotoIds, userId, review.getPlaceId());
+        return new ReviewResponse(review.getId(), attachedPhotoIds, review.getContent(), review.getPlaceId());
     }
 }
