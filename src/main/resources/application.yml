@@ -6,11 +6,11 @@ spring:
     url: jdbc:mysql://127.0.0.1:3307/triple
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     properties:
       hibernate:
         show_sql: true
-  kafka :
+  kafka:
     consumer:
       group-id: test
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
