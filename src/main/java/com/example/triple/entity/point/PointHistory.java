@@ -1,8 +1,10 @@
 package com.example.triple.entity.point;
 
+import com.example.triple.BaseTimeEntity;
 import com.example.triple.entity.user.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
@@ -12,7 +14,8 @@ import java.util.UUID;
 @Entity
 @Getter
 @NoArgsConstructor
-public class Point {
+@ToString
+public class PointHistory extends BaseTimeEntity {
     @Id
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
@@ -24,6 +27,15 @@ public class Point {
     @JoinColumn(name = "userId")
     private User user;
 
-    private int pointIncreaseOrDecrease;
+    private int beforePoint;
 
+    private int increaseOrDecreasePoint;
+    private int afterPoint;
+
+    public PointHistory(User user, int increaseOrDecreasePoint, int beforePoint, int afterPoint) {
+        this.user = user;
+        this.increaseOrDecreasePoint = increaseOrDecreasePoint;
+        this.beforePoint = beforePoint;
+        this.afterPoint = afterPoint;
+    }
 }
