@@ -1,4 +1,4 @@
-package com.example.triple.service.point;
+package com.example.triple.unit.service.point;
 
 import com.example.triple.dto.events.EventsResponse;
 import com.example.triple.dto.review.ReviewAction;
@@ -8,6 +8,7 @@ import com.example.triple.entity.user.User;
 import com.example.triple.error.UserCustomException;
 import com.example.triple.repository.review.ReviewRepository;
 import com.example.triple.repository.user.UserRepository;
+import com.example.triple.service.point.PointHistoryService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
