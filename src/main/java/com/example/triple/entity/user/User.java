@@ -1,5 +1,6 @@
 package com.example.triple.entity.user;
 
+import com.example.triple.BaseTimeEntity;
 import com.example.triple.entity.review.Review;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,7 +14,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @Getter
 @Table(name = "user_table")
-public class User {
+public class User extends BaseTimeEntity {
     @Id
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
