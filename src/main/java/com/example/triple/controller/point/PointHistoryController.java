@@ -2,6 +2,7 @@ package com.example.triple.controller.point;
 
 import com.example.triple.dto.events.EventsResponse;
 import com.example.triple.dto.point.PointHistoryResponse;
+import com.example.triple.dto.review.ReviewResponse;
 import com.example.triple.service.point.PointHistoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Slice;
@@ -19,9 +20,9 @@ public class PointHistoryController {
 
 
     @PostMapping("/events")
-    public void events(@Validated @RequestBody EventsResponse eventsResponse) {
+    public ResponseEntity<ReviewResponse> events(@Validated @RequestBody EventsResponse eventsResponse) {
 
-        pointHistoryService.events(eventsResponse);
+        return new ResponseEntity<>(pointHistoryService.events(eventsResponse), HttpStatus.OK);
     }
 
 
